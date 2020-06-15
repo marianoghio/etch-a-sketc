@@ -1,8 +1,4 @@
 
-
-
-
-
 const container = document.getElementById("container");
 
 function makeRows(size) {
@@ -10,70 +6,81 @@ function makeRows(size) {
   container.style.setProperty('--grid-cols', size);
   for (c = 0; c < (size * size); c++) {
     let cell = document.createElement("div");
-    
+
     container.appendChild(cell).className = "grid-item";
   };
 };
 
-function reMakeRows(size) {
-  container.style.setProperty('--grid-rows', size);
-  container.style.setProperty('--grid-cols', size);
-  container.getElementsByTagName("div").remove;
-  for (c = 0; c < (size * size); c++) {
-    let cell = document.createElement("div");
-    
-    container.appendChild(cell).className = "grid-item";
-  };
-};
-
-
-
-makeRows(16)
-
-function paint (){
-    $(".grid-item").on('mouseover',function(){
-        $(this).addClass('active');
- });
+function paint(color) {
+  
+  $(".grid-item").on('mouseover', function () {
+    $(this).css('background-color' , color);
+  });
 
 }
 
 
-paint()
+function getRandomColor(){
+  let letters = '0123456789ABCDEF';
+  let colors = '#';
+  for (var i=0; i<6 ; i++){
+    colors += letters[Math.floor(Math.random()*16)];
+  }
+  return colors;
+}
 
-// function askSize(){
-  
-//   size = prompt("input numer of columns")
-  
-  
-//   }
 
-  
+const rainbow = getRandomColor();
 
-function clear(){
-    $(".grid-item").removeClass("active");
-    do{
-      var size = parseInt(window.prompt("Please enter a number from 2 to 24", ""), 10);
-  }while(isNaN(size) || size > 24 || size < 2);
- makeRows(size);
- paint();
-    
-    // document.getElementsByClassName("grid-item").remove();
-  
-    
-    // container.removeChild.className = "grid-item";
-    // container.appendChild(cell).className = "grid-item";
-    
-     
- }
+const black = "black"
 
+
+let size = document.getElementById("input").value;
+
+makeRows(size)
+paint(black);
 
 
  
+function clear() {
+  $(".grid-item").css('background-color' , "inherit");
 
+  }
+
+
+function paintBlack(){
+  clear();
+  paint(black);
+}
+
+
+function paintRainbow(){
+  clear();
+  document.querySelectorAll('.grid-item').forEach(paint(getRandomColor));
+  
+}
+
+
+   function updateSize(){
+    clear();
+    var size = document.getElementById("input").value;
+    
+    makeRows(size);
+    paintBlack();
+    
+  }
+  
  
 document.getElementById("clear").addEventListener("click", clear)
 
+document.getElementById("black").addEventListener("click", paintBlack);
 
+
+document.getElementById("rainbow").addEventListener("click", paintRainbow);
+
+
+
+document.getElementById("submit").addEventListener("click", updateSize);
 
 
 
